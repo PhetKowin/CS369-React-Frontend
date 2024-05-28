@@ -173,7 +173,7 @@ function Home() {
 
                 {statusAdd == false &&
                 <div>
-                    <button onClick={handleClickAdd}>+</button>
+                    <button onClick={handleClickAdd}>Add Product +</button>
                 </div>}
 
             {statusAdd == true && <button onClick={handleClickCloseForm}>X</button>}
