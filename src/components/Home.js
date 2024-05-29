@@ -11,6 +11,8 @@ function Home() {
     const [datafilter, setDataFilter] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const isLogged = window.sessionStorage.getItem("token");
+    const username = window.sessionStorage.getItem("username");
 
     // Get Data From API
     const fetchDataForPosts = async () => {
@@ -71,6 +73,10 @@ function Home() {
         })
         setData(newData)
     }
+    function handleLogout(){
+        sessionStorage.clear();
+        window.location.reload();
+    }
     function handleClickAdd(event) {
         setStatusAdd(true)
     }
@@ -85,7 +91,7 @@ function Home() {
     // กด submit post data
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const allInputValue = { ProductName: formValue.ProductName, ProductImage: formValue.ProductImage, ProductDetail: formValue.ProductDetail, ProductPrice: formValue.ProductPrice, ProductSize: formValue.ProductSize, ProductMaterial: formValue.ProductMaterial}
+        const allInputValue = { ProductName: formValue.ProductName, ProductImage: formValue.ProductImage, ProductDetail: formValue.ProductDetail, ProductPrice: formValue.ProductPrice, ProductSize: formValue.ProductSize, ProductMaterial: formValue.ProductMaterial }
         console.log(allInputValue)
 
         let res = await fetch("http://localhost:8080/api/ship", {
@@ -165,18 +171,28 @@ function Home() {
 
     return (
         <div className='container'>
+            { (username != null || username != undefined) &&
+            <div style={{ alignSelf: 'right', display: 'flex', gap: '0.5rem' }}>
+                    Hello {username}
+            </div>}
             <div style={{ alignSelf: 'right', display: 'flex', gap: '0.5rem' }}>
 
+                {(isLogged == null || isLogged == undefined) &&
                 <div>
-                <Link style={{ margin: '0 0.5rem 0 0.5rem', textAlign: 'right' }} to={`/login`}>Login</Link>
-                </div>
-
-                {statusAdd == false &&
-                <div>
-                    <button onClick={handleClickAdd}>Add Product +</button>
+                    <Link style={{ margin: '0 0.5rem 0 0.5rem', textAlign: 'right' }} to={`/login`}>Login</Link>
                 </div>}
 
-            {statusAdd == true && <button onClick={handleClickCloseForm}>X</button>}
+                {(isLogged != null || isLogged != undefined) &&
+                <div>
+                    <button style={{ margin: '0 0.5rem 0 0.5rem', textAlign: 'right' }} onClick={handleLogout} >Logout</button>
+                </div>}
+
+                {statusAdd == false && (isLogged != null || isLogged != undefined) &&
+                    <div>
+                        <button onClick={handleClickAdd}>Add Product +</button>
+                    </div>}
+
+                {statusAdd == true && <button onClick={handleClickCloseForm}>X</button>}
 
             </div>
             {statusAdd == false &&

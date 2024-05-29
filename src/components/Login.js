@@ -14,11 +14,11 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const allInputValue = { username: formValue.Username, password: formValue.Password }
+        const allInputValue = { Username: formValue.Username, Password: formValue.Password }
         console.log(allInputValue)
         try {
             // Replace with your actual login logic
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(allInputValue),
@@ -31,8 +31,10 @@ function Login() {
             // Assuming the response contains a success flag and possibly a token
             const data = await response.json();
             if (data.message == "success") {
-                // Navigate to the desired page after successful login
-                navigate('/'); // Replace with your target route
+                window.sessionStorage.setItem("token", data.data.token);
+                window.sessionStorage.setItem("username", data.data.Username);
+                console.log(window.sessionStorage.getItem("username"))
+                navigate('/');
             } else {
                 setError('Invalid Username or Password');
             }
