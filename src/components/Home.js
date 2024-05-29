@@ -3,7 +3,7 @@ import './../App.css';
 import DataTable from 'react-data-table-component';
 import { useEffect, useState, useCallback } from 'react';
 import React, { useMemo } from 'react';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 function Home() {
@@ -13,6 +13,7 @@ function Home() {
     const [error, setError] = useState(null);
     const isLogged = window.sessionStorage.getItem("token");
     const username = window.sessionStorage.getItem("username");
+    const navigate = useNavigate();
 
     // Get Data From API
     const fetchDataForPosts = async () => {
@@ -105,13 +106,14 @@ function Home() {
             setStatusAdd(false)
             fetchDataForPosts();
             return (
-                alert('Yes')
+                alert('Add success')
 
             );
         } else {
-            return (
-                alert('No')
-            );
+                alert('Token expired, need to re login ')
+                sessionStorage.clear();
+                navigate('/login');
+            
         }
 
     }
@@ -230,7 +232,7 @@ function Home() {
                         <div>
                             <input
                                 type="text"
-                                placeholder="ProductImage"
+                                placeholder="ProductImage(Image URL)"
                                 name="ProductImage"
                                 value={formValue.ProductImage}
                                 onChange={handlePostShip}
