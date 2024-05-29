@@ -91,7 +91,7 @@ function Home() {
     // กด submit post data
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const allInputValue = { ProductName: formValue.ProductName, ProductImage: formValue.ProductImage, ProductDetail: formValue.ProductDetail, ProductPrice: formValue.ProductPrice, ProductSize: formValue.ProductSize, ProductMaterial: formValue.ProductMaterial }
+        const allInputValue = { ProductName: formValue.ProductName, ProductImage: formValue.ProductImage, ProductDetail: formValue.ProductDetail, ProductPrice: formValue.ProductPrice, ProductSize: formValue.ProductSize, ProductMaterial: formValue.ProductMaterial, token: isLogged }
         console.log(allInputValue)
 
         let res = await fetch("http://localhost:8080/api/ship", {
