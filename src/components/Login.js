@@ -33,7 +33,7 @@ function Login() {
             if (data.message == "success") {
                 window.sessionStorage.setItem("token", data.data.token);
                 window.sessionStorage.setItem("username", data.data.Username);
-                console.log(window.sessionStorage.getItem("username"))
+                console.log(window.sessionStorage.getItem("token"))
                 navigate('/');
             } else {
                 setError('Invalid Username or Password');
